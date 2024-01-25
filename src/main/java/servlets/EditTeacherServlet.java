@@ -31,14 +31,18 @@ public class EditTeacherServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        // Логика обновления преподавателя
+        String method = request.getParameter("_method");
         int teacherId = Integer.parseInt(request.getParameter("teacherId"));
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
+        if(method.equals("DELETE")){
+            teachersDAO.deleteTeacher(teacherId);
+        } else {
 
-        Teachers teacher = new Teachers(teacherId, name, email);
-        teachersDAO.updateTeacher(teacher);
+            String name = request.getParameter("name");
+            String email = request.getParameter("email");
 
+            Teachers teacher = new Teachers(teacherId, name, email);
+            teachersDAO.updateTeacher(teacher);
+        }
         response.sendRedirect(request.getContextPath() + "/teachers-list");
     }
 

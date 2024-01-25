@@ -69,7 +69,6 @@ public class HealthDAO {
                 statement.setInt(2, health.getHealthId());
                 int rowsUpdated = statement.executeUpdate();
 
-                // Добавим логирование
                 System.out.println("Rows updated: " + rowsUpdated);
             }
         } catch (SQLException e) {

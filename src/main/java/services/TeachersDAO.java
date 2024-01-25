@@ -69,8 +69,6 @@ public class TeachersDAO {
                 statement.setString(2, teacher.getEmail());
                 statement.setInt(3, teacher.getTeacherId());
                 int rowsUpdated = statement.executeUpdate();
-
-                // Добавим логирование
                 System.out.println("Rows updated: " + rowsUpdated);
             }
         } catch (SQLException e) {

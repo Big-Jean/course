@@ -32,16 +32,20 @@ public class EditHealthServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
+            String method = request.getParameter("_method");
             int healthId = Integer.parseInt(request.getParameter("healthId"));
-            String condition = request.getParameter("condition");
+            if(method.equals("DELETE")){
+                healthDAO.deleteHealthRecord(healthId);
+            } else {
+                String condition = request.getParameter("condition");
 
-            // Проверка на null или пустую строку перед преобразованием в число
-            String studentIdParameter = request.getParameter("studentId");
-            int studentId = (studentIdParameter != null && !studentIdParameter.isEmpty()) ? Integer.parseInt(studentIdParameter) : 0;
+                // Проверка на null или пустую строку перед преобразованием в число
+                String studentIdParameter = request.getParameter("studentId");
+                int studentId = (studentIdParameter != null && !studentIdParameter.isEmpty()) ? Integer.parseInt(studentIdParameter) : 0;
 
-            Health health = new Health(healthId, condition, studentId);
-            healthDAO.updateHealthRecord(health);
-
+                Health health = new Health(healthId, condition, studentId);
+                healthDAO.updateHealthRecord(health);
+            }
             response.sendRedirect(request.getContextPath() + "/health-list");
         } catch (NumberFormatException e) {
             // Обработка исключения, например, отправка сообщения об ошибке
@@ -50,11 +54,13 @@ public class EditHealthServlet extends HttpServlet {
     }
 
 
+
+
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
         // Логика удаления записи о состоянии здоровья
         int healthId = Integer.parseInt(request.getParameter("healthId"));
-        healthDAO.deleteHealthRecord(healthId);
+
 
         response.sendRedirect(request.getContextPath() + "/health-list");
     }
